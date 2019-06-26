@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+
+<launch>
+
+
+  <node pkg="uw_img_sim" type="convertbag.py" name="bagconvert>
+  </node>
+</launch>
