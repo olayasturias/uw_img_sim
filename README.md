@@ -119,6 +119,6 @@ roslaunch uuv_gazebo_worlds subsea_bop_panel.launch
 
 On the left, the original image from Gazebo with the
 <p align="center">
-    <img src="images/orig.jpg" height="350px">
-    <img src="images/styl.jpg" height="350px">
+    <img src="images/orig.jpg" height="300px">
+    <img src="images/styl.jpg" height="300px">
 </p>
