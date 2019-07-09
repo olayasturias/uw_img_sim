@@ -125,7 +125,8 @@ in the uuv simulator environment `subsea_bop_panel`. You can launch this model a
 roslaunch uuv_gazebo_worlds subsea_bop_panel.launch
 ```
 
-On the left, the original image from Gazebo, on the right the stylized image.
+On top, the original image from Gazebo, and below the stylized image with then
+turbid (left) and the blue (right) models.
 <p align="center">
     <img src="images/orig.jpg" height="400px">
     <img src="images/styl.jpg" height="200px">
