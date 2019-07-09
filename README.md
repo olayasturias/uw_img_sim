@@ -110,7 +110,15 @@ to see help about this script commands.
 
 ## Examples of returned ouputs
 
+Below there is an example of the returned output with the `uw_turbid.model`
+in the uuv simulator environment subsea_bop_panel. You can launch this model as:
+
+```bash
+roslaunch uuv_gazebo_worlds subsea_bop_panel.launch
+```
+
+model. On the left, the original image from Gazebo with the
 <p align="center">
-    <img src="images/orig.jpg" height="200px">
-    <img src="images/styl.jpg" height="200px">
+    <img src="images/orig.jpg" height="400px">
+    <img src="images/styl.jpg" height="400px">
 </p>
