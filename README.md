@@ -95,10 +95,10 @@ selected image topic stylized according to the chosen model.
 This script is a python3 script instead of a ROS node, as it simply reads
 image frames from a directory and stylizes them.
 
-To run it, first go to the directory where it is saved:
+To run it, first go to the package directory:
 
 ```bash
-cd src/uw_img_sim/nodes
+cd src/uw_img_sim
 ```
 
 And then run:
@@ -107,6 +107,14 @@ And then run:
 python3 convertframes.py eval -h
 ```
 to see help about this script commands.
+
+For example, for converting the example original frame to the stylized with the
+blue style (and using the CPU), do:
+
+```bash
+python3 nodes/convertframes.py eval --content-image images/orig.jpg --model models/blue_water.model --output-image images/blue.jpg --cuda 0
+```
+
 
 ## Examples of returned ouputs
 
@@ -117,8 +125,9 @@ in the uuv simulator environment `subsea_bop_panel`. You can launch this model a
 roslaunch uuv_gazebo_worlds subsea_bop_panel.launch
 ```
 
-On the left, the original image from Gazebo with the
+On the left, the original image from Gazebo, on the right the stylized image.
 <p align="center">
-    <img src="images/orig.jpg" height="250px">
-    <img src="images/styl.jpg" height="250px">
+    <img src="images/orig.jpg" height="400px">
+    <img src="images/styl.jpg" height="200px">
+    <img src="images/blue.jpg" height="200px">
 </p>
