@@ -28,7 +28,7 @@ of stylized images with the given models will be shown.
 
 ## Setting up
 
-First of all, the steps you need to follow to have this repository working in
+First of all, the steps required to have this repository working in
 your computer :)
 
 Go to the `src` folder of your catkin workspace and clone this repository as:
