@@ -161,7 +161,10 @@ include_directories(
    nodes/convertbag.py
    nodes/utils.py
    nodes/transformer_net.py
+   nodes/convertframes.py
    nodes/convertimg.py
+   models/uw_turbid.model
+   models/blue_water.model
    DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
  )
 
@@ -180,11 +183,12 @@ include_directories(
 # )
 
 ## Mark other files for installation (e.g. launch and bag files, etc.)
-# install(FILES
-#   # myfile1
-#   # myfile2
-#   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
-# )
+install(FILES
+    launch/bagconvert.launch
+    launch/imtopicconvert.launch
+
+    DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+     )
 
 #############
 ## Testing ##

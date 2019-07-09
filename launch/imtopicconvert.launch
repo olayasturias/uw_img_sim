@@ -1,0 +1,23 @@
+<launch>
+  <!-- Read arguments -->
+  <arg name="input-bag"  default="None"/>
+  <arg name="output-bag" default="None"/>
+  <arg name="topic" default="/topic"/>
+  <arg name="scale" default= "2"/>
+  <arg name="model" default= "$(find uw_img_sim)/models/uw_turbid.model"/>
+  <arg name="cuda" default= "0"/>
+
+  <node name="bagconvert"
+        pkg="uw_img_sim"
+        type="convertimg.py"
+        output="screen"
+        respawn="false">
+        
+    <!-- Set ROS parameters -->
+
+    <param name="topic"      value="$(arg topic)"/>
+    <param name="scale"      value="$(arg scale)"/>
+    <param name="model"      value="$(arg model)"/>
+    <param name="cuda"       value="$(arg cuda)"/>
+  </node>
+</launch>

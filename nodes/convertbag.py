@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 import sys
-import rospy
 import os
 import re
 import datetime
@@ -13,35 +12,33 @@ from transformer_net import TransformerNet
 import torch
 import rosbag
 import cv2
-from sensor_msgs.msg import Image as sImage
+from sensor_msgs.msg import Image
 from cv_bridge import CvBridge
-from PIL import Image
 
 def stylize(args):
+    device = torch.device("cuda" if args.cuda else "cpu")
     content_transform = transforms.Compose([
                         transforms.ToTensor(),
                         transforms.Lambda(lambda x: x.mul(255))
                         ])
 
 
-    print('Reading bag file '+ os.getcwd() + '/' + args.input_bag
+    print('Reading bag file '+ os.getcwd() + '/' + args.content_image
           + ' topic ' + args.topic)
-    readbag = rosbag.Bag(args.input_bag,'r')
+    readbag = rosbag.Bag(args.content_image,'r')
     bridge = CvBridge()
+    cv_img = []
 
-    with rosbag.Bag(args.output_bag,'w') as outbag:
+    with rosbag.Bag(args.output_image,'w') as outbag:
         for topic, msg, dtime in readbag.read_messages():
+
             if topic == args.topic:
                 cv_img = bridge.imgmsg_to_cv2(msg, desired_encoding="rgb8")
-                cv_img = Image.fromarray(cv_img)
-                if args.scale is not None:
-                    cv_img = cv_img.resize((int(cv_img.size[0] / args.scale),
-                                            int(cv_img.size[1] / args.scale)),
-                                            Image.ANTIALIAS)
+                (h, w, d) = img.shape
 
-                device = torch.device("cuda" if args.cuda else "cpu")
-                content_image = content_transform(cv_img)
-                content_image = content_image.unsqueeze(0).to(device)
+                nh = h/args.content_scale
+                nw = w/args.content_scale
+                cv_img = cv2.resize((h, w), (int(nh),int(nw)))
 
                 with torch.no_grad():
                     style_model = TransformerNet()
@@ -54,17 +51,12 @@ def stylize(args):
                     style_model.to(device)
                     if args.export_onnx:
                         assert args.export_onnx.endswith(".onnx"), "Export model file should end with .onnx"
-                        output = torch.onnx._export(style_model, args.input_bag, args.export_onnx).cpu()
+                        output = torch.onnx._export(style_model, content_image, args.export_onnx).cpu()
                     else:
-                        rospy.loginfo('stylizing image ...')
-                        output = style_model(content_image).cpu()
-                        img = output[0].clone().clamp(0, 255).numpy()
-                        img = img.transpose(1, 2, 0).astype("uint8")
-                        img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
-                        cvoutput = bridge.cv2_to_imgmsg(img, "bgr8")
-                        outbag.write(topic, cvoutput, msg.header.stamp if msg._has_header else dtime)
+                        print('stylizing image ...')
+                        output = style_model(cv_img).cpu()
             else:
-                outbag.write(topic, msg, msg.header.stamp if msg._has_header else dtime)
+                outbag.write(topic, msg, msg.header.stamp if msg._has_header else t)
 
     readbag.close()
 
@@ -73,19 +65,20 @@ def stylize(args):
 
 
 def main():
-    rospy.init_node('convertbag', log_level=rospy.INFO)
     main_arg_parser = argparse.ArgumentParser(description="parser for fast-neural-style")
     subparsers = main_arg_parser.add_subparsers(title="subcommands", dest="subcommand")
 
     eval_arg_parser = subparsers.add_parser("eval", help="parser for evaluation/stylizing arguments")
-    eval_arg_parser.add_argument("--input-bag", type=str, required=False,
+    eval_arg_parser.add_argument("--content-image", type=str, required=False,
                                  help="path to content image you want to stylize")
     eval_arg_parser.add_argument("--topic", type=str, required=False,
                                  help="path to directory with images you want to stylize")
-    eval_arg_parser.add_argument("--scale", type=float, default=None,
+    eval_arg_parser.add_argument("--content-scale", type=float, default=None,
                                  help="factor for scaling down the content image")
-    eval_arg_parser.add_argument("--output-bag", type=str, required=False,
+    eval_arg_parser.add_argument("--output-image", type=str, required=False,
                                  help="path for saving the output image")
+    eval_arg_parser.add_argument("--output-dir", type=str, required=False,
+                                 help="path for saving the output images")
     eval_arg_parser.add_argument("--model", type=str, required=False,
                                  help="saved model to be used for stylizing the image. If file ends in .pth - PyTorch path is used, if in .onnx - Caffe2 path")
     eval_arg_parser.add_argument("--cuda", type=int, required=False,
