@@ -1,0 +1,17 @@
+<launch>
+  <!-- Read arguments -->
+  <arg name="rgb-topic"  default="/bluerov2/bluerov2/camerafront/camera_image"/>
+  <arg name="depth-topic" default="/bluerov2/kinect/depth/image_raw"/>
+
+  <node name="depthblur"
+        pkg="uw_img_sim"
+        type="depth_blur.py"
+        output="screen"
+        respawn="false">
+        
+    <!-- Set ROS parameters -->
+
+    <param name="depth-topic"  value="$(arg depth-topic)"/>
+    <param name="rgb-topic"    value="$(arg rgb-topic)"/>
+  </node>
+</launch>

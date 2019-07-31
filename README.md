@@ -51,7 +51,6 @@ As stated before, the three operation modes available are here described.
 
 ### ROS topic subscription and publishing
 
-To run, simply run:
 
 ```bash
 roslaunch uw_img_sim imtopicconvert.launch topic:=</image/topic> scale:=<scale>
@@ -70,8 +69,6 @@ input topic followed by `/underwater`.
 
 ### ROS bag file edition
 
-To run, simply run:
-
 ```bash
 roslaunch uw_img_sim bagconvert.launch topic:=</image/topic> scale:=<scale>
 model:=<model.model> cuda:=<cuda> input-bag:=</path/to/input.bag>
@@ -79,6 +76,7 @@ output-bag:=</path/to/output.bag>
 ```
 
 `topic`, `scale`, `model` and `cuda` are run-time ROS launch arguments:
+
 /
 -   `input-bag`: path to input bag file.
 -   `output-bag`: path to output bag file.

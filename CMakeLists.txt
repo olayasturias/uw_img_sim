@@ -163,6 +163,7 @@ include_directories(
    nodes/transformer_net.py
    nodes/convertframes.py
    nodes/convertimg.py
+   nodes/depth_blur.py
    models/uw_turbid.model
    models/blue_water.model
    DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
@@ -186,6 +187,7 @@ include_directories(
 install(FILES
     launch/bagconvert.launch
     launch/imtopicconvert.launch
+    launch/depthblur.launch
 
     DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
      )
