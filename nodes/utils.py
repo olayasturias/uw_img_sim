@@ -16,15 +16,22 @@ def load_dir(dirname,scale  =  None):
     img_list  = []
     img_name = []
     valid_images = [".jpg",".gif",".png",".tga"]
-                                                                                                                                                                                                                                                            
+
     for f in os.listdir(dirname):
         ext = os.path.splitext(f)[1]
         if ext.lower() not in valid_images:
             continue
         img_list.append(Image.open(os.path.join(dirname,f)))
         img_name.append(f)
-        
+
     return zip(img_list,img_name)
+
+def sliding_window(image,stepSize,windowSize):
+    for y in range(0, image.shape[0],stepSize):
+        for x in range(0,image.shape[1], stepSize):
+            yield(x, y, image[y:y + windowSize[1], x:x + windowSize[0]])
+
+
 
 
 def save_image(filename, data):

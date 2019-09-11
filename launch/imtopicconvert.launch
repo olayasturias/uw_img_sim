@@ -3,21 +3,31 @@
   <arg name="input-bag"  default="None"/>
   <arg name="output-bag" default="None"/>
   <arg name="topic" default="/topic"/>
+  <arg name="depth-topic" default= "0"/>
   <arg name="scale" default= "2"/>
   <arg name="model" default= "$(find uw_img_sim)/models/uw_turbid.model"/>
   <arg name="cuda" default= "0"/>
+  <arg name="winsize" default= "17"/>
+  <arg name="attenuation" default= "0.1"/>
+  <arg name="alpha" default= "0"/>
 
   <node name="bagconvert"
         pkg="uw_img_sim"
         type="convertimg.py"
         output="screen"
         respawn="false">
-        
-    <!-- Set ROS parameters -->
 
-    <param name="topic"      value="$(arg topic)"/>
-    <param name="scale"      value="$(arg scale)"/>
-    <param name="model"      value="$(arg model)"/>
-    <param name="cuda"       value="$(arg cuda)"/>
+    <!-- Set ROS parameters -->
+    <param name="input-bag"        value="$(arg input-bag)"/>
+    <param name="output-bag"       value="$(arg output-bag)"/>
+    <param name="topic"            value="$(arg topic)"/>
+    <param name="depth-topic"      value="$(arg depth-topic)"/>
+    <param name="scale"            value="$(arg scale)"/>
+    <param name="model"            value="$(arg model)"/>
+    <param name="cuda"             value="$(arg cuda)"/>
+    <param name="winsize"          value="$(arg winsize)"/>
+    <param name="winsize"          value="$(arg winsize)"/>
+    <param name="attenuation"      value="$(arg attenuation)"/>
+    <param name="alpha"            value="$(arg alpha)"/>
   </node>
 </launch>

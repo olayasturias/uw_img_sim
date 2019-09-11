@@ -1,0 +1,4 @@
+ 
+roslaunch uw_img_sim imtopicconvert.launch topic:=/bluerov2/bluerov2/camerafront/camera_image depth-topic:=/bluerov2/kinect/depth/image_raw 
+
+roslaunch uw_img_sim imtopicconvert.launch topic:=/bluerov2/bluerov2/camerafront/camera_image depth-topic:=/bluerov2/kinect/depth/image_raw input-bag:=boatdepth.bag output-bag:=tfboatdepth_dust.bag
