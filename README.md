@@ -60,9 +60,13 @@ model:=<model.model> cuda:=<cuda>
 `topic`, `scale`, `model` and `cuda` are run-time ROS launch arguments:
 /
 -   `topic`: image topic to stylize.
+-   `depth-topic`: topic with depth image. If not published, doesn't perform depth blurring
 -   `scale`: factor for scaling down the content image, default: `2`.
 -   `model`: model for image stylizing, default: `uw_turbid.model`.
 -   `cuda`: set it to `1` for running on GPU, `0` for CPU.
+-   `winsize`: size of Gaussian kernel that performs the depth blurring.
+-   `attenuation`: attenuation and scattering parameter.
+-   `alpha`: superposition between the original the stylized frame.
 
 A topic will be published with the stylized image with the same name as the
 input topic followed by `/underwater`.
@@ -81,9 +85,13 @@ output-bag:=</path/to/output.bag>
 -   `input-bag`: path to input bag file.
 -   `output-bag`: path to output bag file.
 -   `topic`: image topic to stylize.
+-   `depth-topic`: topic with depth image. If not published, doesn't perform depth blurring.
 -   `scale`: factor for scaling down the content image, default: `2`.
 -   `model`: model for image stylizing, default: `uw_turbid.model`.
 -   `cuda`: set it to `1` for running on GPU, `0` for CPU.
+-   `winsize`: size of Gaussian kernel that performs the depth blurring.
+-   `attenuation`: attenuation and scattering parameter.
+-   `alpha`: superposition between the original the stylized frame.
 
 A bag file will be saved with the same topics as the input bag, but with the
 selected image topic stylized according to the chosen model.

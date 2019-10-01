@@ -10,6 +10,9 @@
   <arg name="winsize" default= "17"/>
   <arg name="attenuation" default= "0.1"/>
   <arg name="alpha" default= "0"/>
+  <arg name="nlights" default= "2"/>
+  <arg name="light-pose" default= "DLDR"/>
+
 
   <node name="bagconvert"
         pkg="uw_img_sim"
@@ -29,5 +32,7 @@
     <param name="winsize"          value="$(arg winsize)"/>
     <param name="attenuation"      value="$(arg attenuation)"/>
     <param name="alpha"            value="$(arg alpha)"/>
+    <param name="nlights"          value="$(arg nlights)"/>
+    <param name="light-pose"       value="$(arg light-pose)"/>
   </node>
 </launch>

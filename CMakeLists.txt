@@ -164,8 +164,6 @@ include_directories(
    nodes/convertframes.py
    nodes/convertimg.py
    nodes/depth_blur.py
-   models/uw_turbid.model
-   models/blue_water.model
    DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
  )
 
