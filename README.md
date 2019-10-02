@@ -154,5 +154,5 @@ lights on bottom right and left.
 <p align="center">
     <img src="images/paneltest.png" height="400px">
     <img src="images/hazedcantabricgauss.png" height="200px">
-    <img src="images/hazedmedgauss.png" height="200px">
+    <img src="images/hazemedgauss.png" height="200px">
 </p>
