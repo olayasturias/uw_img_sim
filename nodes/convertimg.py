@@ -54,7 +54,6 @@ class TopicConverter(object):
     def depth_callback(self,msg):
         cv_img = self.bridge.imgmsg_to_cv2(msg, desired_encoding="16UC1")
         cv_img = np.where(cv_img!=0, cv_img, 200)
-        print('saving img')
         cv2.imwrite('/home/olaya/catkin_ws/src/uw_img_sim/nodes/depth_panel.jpg',cv_img)
 
 
@@ -67,7 +66,6 @@ class TopicConverter(object):
 
     def img_callback(self,msg):
         cv_img = self.bridge.imgmsg_to_cv2(msg, desired_encoding="rgb8")
-        print('saving rgb')
         cv2.imwrite('/home/olaya/catkin_ws/src/uw_img_sim/nodes/rgb_panel.jpg',cv_img)
 
         if self.scale is not None:
@@ -79,34 +77,34 @@ class TopicConverter(object):
         if self.depth_img.any():
             cv_img = self.depth_blur(cv_img)
 
+        # Apply style transfer
+        converted = self.convert(cv_img)
+
         # Add lights (if any)
         # first obtain lights pose
         if self.nlights > 0:
             lights = np.empty([self.nlights,2])
-            for i in range (self.nlights-1):
+            for i in range (self.nlights):
                 if self.lightposes[i*2] == 'L' or self.lightposes[i*2+1] == 'L':
-                    lights[i][0] = 0 #left
+                    lights[i][1] = -cv_img.shape[1] #left
                 elif self.lightposes[i*2] == 'R' or self.lightposes[i*2+1] == 'R':
-                    lights[i][0] = cv_img.shape[1] # right
+                    lights[i][1] = cv_img.shape[1] # right
 
-                elif self.lightposes[i*2] == 'T' or self.lightposes[i*2+1] == 'T':
-                    lights[i][1] = 0 #top
+                if self.lightposes[i*2] == 'T' or self.lightposes[i*2+1] == 'T':
+                    lights[i][0] = 0 #top
                 elif self.lightposes[i*2] == 'B' or self.lightposes[i*2+1] == 'B':
-                    lights[i][1] = cv_img.shape[0] #bottom
-            for l in lights:
-                print (lights)
-                print (l)
-                print(l[0],l[1])
-                light1_pose = (l[0],l[1])
-                cv_img = self.add_sun_flare(cv_img , flare_center = light1_pose ,radius = 300)
-            # cv_img = [self.add_sun_flare(cv_img , flare_center = (l[0],l[1]),radius = 300) for l in lights]
+                    lights[i][0] = cv_img.shape[0] #bottom
 
-        # Apply style transfer
-        converted = self.convert(cv_img)
+            for l in lights:
+                converted = self.add_sun_flare(converted , flare_center = l ,
+                                                radius = cv_img.shape[0]/5)
+
+
+        rosimg = self.bridge.cv2_to_imgmsg(converted, "bgr8")
 
 
         # Publish
-        self.img_pub.publish(converted)
+        self.img_pub.publish(rosimg)
 
     def bag_read(self, filein, topicin, fileout):
 
@@ -174,8 +172,7 @@ class TopicConverter(object):
                                    0:orig_image.shape[1]],1-self.alpha,0.0)
 
             img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
-            cvoutput = self.bridge.cv2_to_imgmsg(img, "bgr8")
-            return cvoutput
+            return img
 
     def depth_blur(self,img):
         (winW, winH) = (self.winsize, self.winsize)
@@ -253,13 +250,13 @@ class TopicConverter(object):
         for i in range(no_of_flare_circles):
             alpha=random.uniform(0.05,0.2)
             r=random.randint(0, len(x)-1)
-            rad=random.randint(1, imshape[0]//100-2)
+            rad=random.randint(1, 2)
             cv2.circle(overlay,(int(x[r]),int(y[r])), rad*rad*rad, (random.randint(max(src_color[0]-50,0), src_color[0]),random.randint(max(src_color[1]-50,0), src_color[1]),random.randint(max(src_color[2]-50,0), src_color[2])), -1)
             cv2.addWeighted(overlay, alpha, output, 1 - alpha,0, output)
         output= self.flare_source(output,(int(flare_center[0]),int(flare_center[1])),radius,src_color)
         return output
 
-    def add_sun_flare(image,flare_center=-1, angle=-1, no_of_circles=8,radius=400, src_color=(255,255,255)):
+    def add_sun_flare(self, image,flare_center=-1, angle=-1, no_of_circles=8,radius=400, src_color=(255,255,255)):
         """ Adding light flare
         :param image: image
         :param flare_center: center of light in coordinates (x,y)
@@ -283,10 +280,11 @@ class TopicConverter(object):
         else:
             angle_t=angle
 
-        if flare_center==-1:
-            flare_center_t=(random.randint(0,imshape[1]),random.randint(0,imshape[0]//2))
-        else:
+        if (flare_center.any()):
             flare_center_t=flare_center
+        else:
+            flare_center_t=(random.randint(0,imshape[1]),random.randint(0,imshape[0]//2))
+
         x,y= self.add_sun_flare_line(flare_center_t,angle_t,imshape)
         output= self.add_sun_process(image, no_of_circles,flare_center_t,radius,x,y,src_color)
         image_RGB = output

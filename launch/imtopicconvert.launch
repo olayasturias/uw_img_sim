@@ -11,7 +11,7 @@
   <arg name="attenuation" default= "0.1"/>
   <arg name="alpha" default= "0"/>
   <arg name="nlights" default= "2"/>
-  <arg name="light-pose" default= "DLDR"/>
+  <arg name="light-pose" default= "BLBR"/>
 
 
   <node name="bagconvert"

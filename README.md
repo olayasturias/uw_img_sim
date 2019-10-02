@@ -67,6 +67,10 @@ model:=<model.model> cuda:=<cuda>
 -   `winsize`: size of Gaussian kernel that performs the depth blurring.
 -   `attenuation`: attenuation and scattering parameter.
 -   `alpha`: superposition between the original the stylized frame.
+-   `nlights`: number of artificial lights to add. Default: `2`.
+-   `light-pose`: position of the lights. Could be Bottom or Top and Left or Right.
+Write two characters for each light indicating the position. Default: `BRBL`, corresponding to
+Bottom Right and Bottom Left.
 
 A topic will be published with the stylized image with the same name as the
 input topic followed by `/underwater`.
