@@ -96,6 +96,10 @@ output-bag:=</path/to/output.bag>
 -   `winsize`: size of Gaussian kernel that performs the depth blurring.
 -   `attenuation`: attenuation and scattering parameter.
 -   `alpha`: superposition between the original the stylized frame.
+-   `nlights`: number of artificial lights to add. Default: `2`.
+-   `light-pose`: position of the lights. Could be Bottom or Top and Left or Right.
+Write two characters for each light indicating the position. Default: `BRBL`, corresponding to
+Bottom Right and Bottom Left.
 
 A bag file will be saved with the same topics as the input bag, but with the
 selected image topic stylized according to the chosen model.
@@ -128,7 +132,8 @@ python3 nodes/convertframes.py eval --content-image images/orig.jpg --model mode
 
 ## Examples of returned ouputs
 
-Below there is an example of the returned output with the `uw_turbid.model`
+Below there are some example of the returned output with the `uw_turbid.model`
+, the `mediterranean.model` and the `cantabrico3.model`.
 in the uuv simulator environment `subsea_bop_panel`. You can launch this model as:
 
 ```bash
@@ -136,9 +141,18 @@ roslaunch uuv_gazebo_worlds subsea_bop_panel.launch
 ```
 
 On top, the original image from Gazebo, and below the stylized image with then
-turbid (left) and the blue (right) models.
+turbid (left) and the mediterranean (right) models.
 <p align="center">
     <img src="images/orig.jpg" height="400px">
     <img src="images/styl.jpg" height="200px">
     <img src="images/blue.jpg" height="200px">
+</p>
+
+Hereafter, the atlantic and mediterranean modelled images after adding two artificial
+lights on bottom right and left.
+
+<p align="center">
+    <img src="images/paneltest.png" height="400px">
+    <img src="images/hazedcantabricgauss.png" height="200px">
+    <img src="images/hazedmedgauss.png" height="200px">
 </p>

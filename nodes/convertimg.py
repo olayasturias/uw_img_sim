@@ -133,6 +133,27 @@ class TopicConverter(object):
                         print('no depth image yet')
                     # Apply style transfer
                     converted = self.convert(cv_img)
+                    # Add lights (if any)
+                    # first obtain lights pose
+                    if self.nlights > 0:
+                        lights = np.empty([self.nlights,2])
+                        for i in range (self.nlights):
+                            if self.lightposes[i*2] == 'L' or self.lightposes[i*2+1] == 'L':
+                                lights[i][1] = -cv_img.shape[1] #left
+                            elif self.lightposes[i*2] == 'R' or self.lightposes[i*2+1] == 'R':
+                                lights[i][1] = cv_img.shape[1] # right
+
+                            if self.lightposes[i*2] == 'T' or self.lightposes[i*2+1] == 'T':
+                                lights[i][0] = 0 #top
+                            elif self.lightposes[i*2] == 'B' or self.lightposes[i*2+1] == 'B':
+                                lights[i][0] = cv_img.shape[0] #bottom
+
+                        for l in lights:
+                            converted = self.add_sun_flare(converted , flare_center = l ,
+                                                            radius = cv_img.shape[0]/5)
+
+                    rosimg = self.bridge.cv2_to_imgmsg(converted, "bgr8")
+
                     outbag.write(topic, converted, dtime)
                 else:
                     outbag.write(topic, msg, dtime)
