@@ -4,7 +4,7 @@ This ROS package aims to simulate the dusty and blurry conditions suffered in
 underwater images due to light dispersion in such medium.
 
 | Original             |  Style transfer | Artificial haze |
-:-------------------------:|:-------------------------:
+:-------------------------:|:-------------------------:|:-------------------------:
 ![](images/paneltest.png)  |  ![](images/panel_alpha04.png) |  ![](images/hazedmuddygauss.png)
 
 It is meant to be used with the underwater robotics simulator
