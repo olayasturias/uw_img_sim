@@ -3,10 +3,6 @@
 This ROS package aims to simulate the dusty and blurry conditions suffered in
 underwater images due to light dispersion in such medium.
 
-| Original             |  Style transfer | Artificial haze |
-:-------------------------:|:-------------------------:|:-------------------------:
-![](images/paneltest.png)  |  ![](images/panel_alpha04.png) |  ![](images/hazedmuddygauss.png)
-
 It is meant to be used with the underwater robotics simulator
 [uuv_simulator](https://github.com/uuvsimulator/uuv_simulator),
 which works on Gazebo, but it can be used with any image topic desired by the
@@ -16,7 +12,12 @@ The technique used for creating this synthetic images is
 [fast_neural_style](https://github.com/pytorch/examples/tree/master/fast_neural_style),
 which mixes the style of an image with the content of another image. A model
 has been trained to stylize the images as underwater images, which is then used
-by this ROS package.
+by this ROS package. Moreover,custom hazes can be added to the image in order
+to emulate the uneven lightning conditions created by artificial lights underwater.
+
+| Original             |  Style transfer | Artificial haze |
+:-------------------------:|:-------------------------:|:-------------------------:
+![](images/paneltest.png)  |  ![](images/panel_alpha04.png) |  ![](images/hazedmuddygauss.png)
 
 This package provides three operating modes:
 
