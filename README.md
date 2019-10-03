@@ -3,7 +3,11 @@
 This ROS package aims to simulate the dusty and blurry conditions suffered in
 underwater images due to light dispersion in such medium.
 
-It was meant to be used with the underwater robotics simulator
+| Original             |  Style transfer | Artificial haze |
+:-------------------------:|:-------------------------:
+![](images/paneltest.png)  |  ![](images/panel_alpha04.png) |  ![](images/hazedmuddygauss.png)
+
+It is meant to be used with the underwater robotics simulator
 [uuv_simulator](https://github.com/uuvsimulator/uuv_simulator),
 which works on Gazebo, but it can be used with any image topic desired by the
 user.
@@ -47,7 +51,7 @@ Now you should be ready to use it!
 
 ## Running
 
-As stated before, the three operation modes available are here described.
+The three operation modes available are here described.
 
 ### ROS topic subscription and publishing
 
@@ -150,6 +154,14 @@ turbid (left) and the mediterranean (right) models.
 
 Hereafter, the atlantic and mediterranean modelled images after adding two artificial
 lights on bottom right and left.
+
+<p align="center">
+    <img src="images/paneltest.png" height="400px">
+    <img src="images/hazedcantabricgauss.png" height="200px">
+    <img src="images/hazemedgauss.png" height="200px">
+</p>
+
+And finally, the result of applying the homomorphic filter to the artificially-hazed images
 
 <p align="center">
     <img src="images/paneltest.png" height="400px">
