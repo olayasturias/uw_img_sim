@@ -161,11 +161,3 @@ lights on bottom right and left.
     <img src="images/hazedcantabricgauss.png" height="200px">
     <img src="images/hazemedgauss.png" height="200px">
 </p>
-
-And finally, the result of applying the homomorphic filter to the artificially-hazed images
-
-<p align="center">
-    <img src="images/paneltest.png" height="400px">
-    <img src="images/hazedcantabricgauss.png" height="200px">
-    <img src="images/hazemedgauss.png" height="200px">
-</p>
